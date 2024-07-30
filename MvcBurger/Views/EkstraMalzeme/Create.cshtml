@@ -1,0 +1,38 @@
+﻿@model MvcBurger.Entities.EkstraMalzeme
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<h4>Ekstra Malzeme Ekranı</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Adi" class="control-label"></label>
+                <input asp-for="Adi" class="form-control" />
+                <span asp-validation-for="Adi" class="text-danger"></span> 
+            </div>
+            <div class="form-group">
+                <label asp-for="Fiyat" class="control-label"></label>
+                <input asp-for="Fiyat" class="form-control" />
+               <span asp-validation-for="Fiyat" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <button class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+<div>
+    <a class ="btn btn-outline-warning btn-sm" asp-action="Index">Ekstra Malzeme Listesi</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

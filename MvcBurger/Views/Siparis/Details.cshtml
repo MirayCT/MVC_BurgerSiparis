@@ -1,0 +1,36 @@
+﻿@model MvcBurger.Entities.Siparis
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Siparis</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Buyukluk)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Buyukluk)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SiparisSayisi)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SiparisSayisi)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ToplamFiyat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ToplamFiyat)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,93 @@
+﻿@model MvcBurger.Entities.Siparis
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h4>Siparis Ekleme</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Menü</label>
+                <select name="MenuId" class="form-select" asp-for="Menuler" asp-items="@(new SelectList(ViewBag.Menuler1,"Id","Ad"))" onchange="Hesapla()">
+                    <option value="">Seçiniz</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Ekstra Malzeme</label>
+                <select name="extraId" class="form-select" asp-for="EkstraMalzemeler" asp-items="@(new SelectList(ViewBag.EkstraMalzemeler1,"Id","Adi"))" onchange="Hesapla()">
+                    <option value="">Seçiniz</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Boyut</label><br />
+                <input onchange="Hesapla()" name="size" type="radio" asp-for="Buyukluk" value="Kucuk" /> Küçük<br />
+                <input onchange="Hesapla()" name="size" type="radio" asp-for="Buyukluk" value="Orta" /> Orta<br />
+                <input onchange="Hesapla()" name="size" type="radio" asp-for="Buyukluk" value="Buyuk" /> Büyük<br />
+                <span asp-validation-for="Buyukluk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiparisSayisi" class="control-label"></label>
+                <input onchange="Hesapla()" name="quantity" asp-for="SiparisSayisi" class="form-control" />
+                <span asp-validation-for="SiparisSayisi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ToplamFiyat" class="control-label"></label>
+                <input asp-for="ToplamFiyat" name="totalPrice" class="form-control" />
+                <span asp-validation-for="ToplamFiyat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="btnCreate" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-outline-warning btn-sm" asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<script>
+    function Hesapla() {
+        var size = document.querySelector('input[name="size"]:checked');
+        var menuId = document.querySelector('select[name="MenuId"]').value;
+        var extraId = document.querySelector('select[name="extraId"]').value;
+        var quantity = document.querySelector('input[name="quantity"]');
+
+        var menuler = @Html.Raw(Json.Serialize(ViewBag.Menuler1));
+        var ekstraMalzemeler = @Html.Raw(Json.Serialize(ViewBag.ekstraMalzemeler1));
+
+        var menuPrice = parseFloat(menuler.find(x => x.id == menuId).fiyat);
+        var extraPrice = parseFloat(ekstraMalzemeler.find(x => x.id == extraId).fiyat);
+        var quantity = parseInt(quantity.value);
+        var size = size.value;
+
+        console.log(menuPrice, extraPrice, quantity, size)
+        var totalPrice = 0;
+
+        switch (size) {
+            case 'Kucuk':
+                totalPrice = (menuPrice * quantity) + (extraPrice * quantity);
+                break;
+            case 'Orta':
+                totalPrice = ((menuPrice + 50) * quantity) + (extraPrice * quantity);
+                break;
+            case 'Buyuk':
+                totalPrice = ((menuPrice + 100) * quantity) + (extraPrice * quantity);
+                break;
+            default:
+                break;
+        }
+        document.querySelector('input[name="totalPrice"]').value = totalPrice;
+        console.log(document.querySelector('input[name="totalPrice"]').value);
+    }
+</script>
+
+
